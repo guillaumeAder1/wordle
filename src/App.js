@@ -15,6 +15,7 @@ function App() {
     if (keyCode === 13 && word[lastIndex].length === 5) {
       // todo
       setWord([...word, ''])
+      // end of game message
       if (word.length === 6) setMessage('Game over...')
     }
     // delete last char
