@@ -32,24 +32,25 @@ function App() {
   const [lastIndex, setLastIndex] = useState(0)
   const [keyMap, setKeyMap] = useState({})
   const rows = Array(6).fill(null)
-  const buildKeyMap = char => {
-    if (keyMap[char]) {
-      keyMap[char] ++
-    } else {
-      keyMap[char] = 1
+
+  const buildKeyMap = words => {
+    const map = {}
+    for (const word of words) {
+      for (const char of word) {
+        console.log(char)
+        if (map[char]) {
+          map[char] ++
+        } else {
+          map[char] = 1
+        }
+      }
     }
-    setKeyMap({ ...keyMap })
+    setKeyMap(map);
   }
   useEffect(() => {
     setLastIndex(word.length - 1);
-    console.warn(word)
-    const lastword = word[lastIndex]
-    if (word[lastIndex].length) {
-      const lastchar = lastword[word[lastIndex].length - 1]
-      buildKeyMap(lastchar)
-    }
-    // console.log(lastchar)
-  }, [word, lastIndex])
+    buildKeyMap(word)
+  }, [word])
   useEffect(() => {
     window.addEventListener('keydown', handleKeyevent)
     return () => {
