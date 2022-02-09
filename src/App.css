@@ -59,8 +59,14 @@
   width: 20px;
   height: 20px;
 }
-.keyboard-container span.active {
+.keyboard-container span.grey {
+  background-color: lightgray;
+}
+.keyboard-container span.green {
   background-color: green;
+}
+.keyboard-container span.yellow {
+  background-color: yellow;
 }
 
 .centered {
