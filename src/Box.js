@@ -1,11 +1,11 @@
 
-function Box({ id }) {
+function Box({ value }) {
     return (
         <div
-            onClick={() => console.log(id)}
+            onClick={() => console.log(value)}
             className="box"
         >
-            { id }
+            { value }
         </div>
     )
 }
