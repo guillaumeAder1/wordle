@@ -7,11 +7,15 @@ function App() {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   function handleKeyevent (e) {
     const { key, keyCode } = e;
-    // console.warn(keyCode, key);
+    // stop when all 6 chances are completed... end of game
+    if (word.length === 7) {
+      return
+    }
     // if hit enter to validate word
     if (keyCode === 13 && word[lastIndex].length === 5) {
       // todo
       setWord([...word, ''])
+      if (word.length === 6) setMessage('Game over...')
     }
     // delete last char
     if (keyCode === 8) {
@@ -26,9 +30,10 @@ function App() {
     
     word[lastIndex] += key
     setWord([...word])
-    // buildKeyMap(key)
+    setMessage(word[lastIndex])
   }
   const [word, setWord] = useState([''])
+  const [message, setMessage] = useState('')
   const [lastIndex, setLastIndex] = useState(0)
   const [keyMap, setKeyMap] = useState({})
   const rows = Array(6).fill(null)
@@ -62,7 +67,7 @@ function App() {
       className="App"
     >
       <h1>Wordle</h1>
-      <h2>{word[lastIndex]}</h2>
+      <h2>{ message }</h2>
       {rows.map((row, index) => <Grid key={index} currentWord={word[index] || []} />)}
 
       <Keyboard keys={keyMap} word="test" />
