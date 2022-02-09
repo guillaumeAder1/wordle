@@ -24,7 +24,10 @@ function App() {
         lastWord: word[lastIndex],
       })
       // set word status for css classes
-      setWordStatus(validateWord(word[lastIndex], wordToFind))
+      setWordStatus([
+        ...wordStatus,
+        validateWord(word[lastIndex], wordToFind)
+      ]);
 
       // end of game message
       if (word.length === 6) setMessage('Game over...')
@@ -86,7 +89,7 @@ function App() {
         rows.map((row, index) => <Grid
           key={index}
           currentWord={word[index] || ''}
-          wordStatus={wordStatus}
+          wordStatus={wordStatus[index]}
         />)
       }
       <Keyboard {...keyboardProps} />

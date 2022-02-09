@@ -13,7 +13,7 @@ function Grid({ currentWord, wordStatus }) {
                     <Box
                         key={i}
                         value={currentWord[i] || ''}
-                        color={wordStatus.length ? wordStatus[i].color : ''}
+                        color={wordStatus && wordStatus.length ? wordStatus[i].color : ''}
                     />
                 ))}
             </div>
