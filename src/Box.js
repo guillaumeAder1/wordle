@@ -1,9 +1,9 @@
 
-function Box({ value }) {
+function Box({ value, color }) {
     return (
         <div
             onClick={() => console.log(value)}
-            className="box"
+            className={`${color} box`}
         >
             { value }
         </div>

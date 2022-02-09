@@ -2,6 +2,9 @@ import './App.css';
 import Grid from './Grid'
 import Keyboard from './Keyboard'
 import { useEffect, useState } from 'react';
+import { validateWord } from './utils/utils'
+
+
 
 function App() {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -13,13 +16,16 @@ function App() {
     }
     // if hit enter to validate word
     if (keyCode === 13 && word[lastIndex].length === 5) {
-      // todo
+      // add new word[] item 
       setWord([...word, ''])
       setkeyboardProps({
         ...keyboardProps,
         keys: keyMap,
         lastWord: word[lastIndex],
       })
+      // set word status for css classes
+      setWordStatus(validateWord(word[lastIndex], wordToFind))
+
       // end of game message
       if (word.length === 6) setMessage('Game over...')
     }
@@ -40,6 +46,7 @@ function App() {
   }
   const wordToFind = 'toast'
   const [word, setWord] = useState([''])
+  const [wordStatus, setWordStatus] = useState([])
   const [message, setMessage] = useState('')
   const [lastIndex, setLastIndex] = useState(0)
   const [keyMap, setKeyMap] = useState({})
@@ -78,11 +85,10 @@ function App() {
       {
         rows.map((row, index) => <Grid
           key={index}
-          currentWord={word[index] || []}
-          {...keyboardProps}
+          currentWord={word[index] || ''}
+          wordStatus={wordStatus}
         />)
       }
-
       <Keyboard {...keyboardProps} />
     </div>
   );

@@ -1,16 +1,11 @@
-
+import { useEffect } from 'react'
 import Box from './Box'
+import { validateWord } from './utils/utils'
 
-function Grid({ currentWord, lastWord, word }) {
+
+function Grid({ currentWord, wordStatus }) {
     const boxes = Array(5).fill(null)
-    // const getClass = lastWord => {
-    //     console.warn('getclass', lastWord)
-    //     if (!lastWord) return;
-
-    // }
-    // useEffect(() => {
-    //     console.log('validate row')
-    // }, [lastWord])
+  
     return (
         <div className='grid-container centered'>
             <div className='box-row'>
@@ -18,6 +13,7 @@ function Grid({ currentWord, lastWord, word }) {
                     <Box
                         key={i}
                         value={currentWord[i] || ''}
+                        color={wordStatus.length ? wordStatus[i].color : ''}
                     />
                 ))}
             </div>

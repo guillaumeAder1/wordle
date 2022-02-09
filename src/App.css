@@ -59,13 +59,13 @@
   width: 20px;
   height: 20px;
 }
-.keyboard-container span.grey {
+.grey {
   background-color: lightgray;
 }
-.keyboard-container span.green {
+.green {
   background-color: green;
 }
-.keyboard-container span.yellow {
+.yellow {
   background-color: yellow;
 }
 
