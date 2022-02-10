@@ -1,8 +1,8 @@
-import './App.css';
+import './App.scss';
 import Grid from './Grid'
 import Keyboard from './Keyboard'
 import { useEffect, useState } from 'react';
-import { validateWord } from './utils/utils'
+import { validateWordRow, buildKeyMap } from './utils/utils'
 
 
 
@@ -10,6 +10,7 @@ function App() {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   function handleKeyevent(e) {
     const { key, keyCode } = e;
+    console.log(key, keyCode)
     // stop when all 6 chances are completed... end of game
     if (word.length === 7) {
       return
@@ -26,7 +27,7 @@ function App() {
       // set word status for css classes
       setWordStatus([
         ...wordStatus,
-        validateWord(word[lastIndex], wordToFind)
+        validateWordRow(word[lastIndex], wordToFind)
       ]);
 
       // end of game message
@@ -56,22 +57,10 @@ function App() {
   const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: wordToFind })
   const rows = Array(6).fill(null)
 
-  const buildKeyMap = words => {
-    const map = {}
-    for (const word of words) {
-      for (const char of word) {
-        if (map[char]) {
-          map[char]++
-        } else {
-          map[char] = 1
-        }
-      }
-    }
-    setKeyMap(map);
-  }
+ 
   useEffect(() => {
     setLastIndex(word.length - 1);
-    buildKeyMap(word)
+    setKeyMap(buildKeyMap(word))
   }, [word])
   useEffect(() => {
     window.addEventListener('keydown', handleKeyevent)

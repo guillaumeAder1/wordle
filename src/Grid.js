@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
 import Box from './Box'
-import { validateWord } from './utils/utils'
 
 
 function Grid({ currentWord, wordStatus }) {
@@ -8,7 +6,7 @@ function Grid({ currentWord, wordStatus }) {
   
     return (
         <div className='grid-container centered'>
-            <div className='box-row'>
+            <div className='box-row' role='row'>
                 {boxes.map((box, i) => (
                     <Box
                         key={i}
