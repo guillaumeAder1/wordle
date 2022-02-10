@@ -12,6 +12,3 @@ function Box({ value, color }) {
 }
 
 export default Box;
-const toto = srt => {
-    console.warn()
-}
