@@ -3,6 +3,7 @@ import Grid from './Grid'
 import Keyboard from './Keyboard'
 import { useEffect, useState } from 'react';
 import { validateWordRow, buildKeyMap } from './utils/utils'
+import { fetchNewWord } from './utils/api'
 
 
 
@@ -64,13 +65,18 @@ function App() {
   }, [word])
   useEffect(() => {
     window.addEventListener('keydown', handleKeyevent)
+    async function fetch() {
+      const data = await fetchNewWord()
+      console.log(data)
+    }
+    fetch()
     return () => {
       window.removeEventListener('keydown', handleKeyevent)
     }
-  })
+  }, [])
   return (
     <div
-      className="App"
+    className="App"
     >
       <h1>Wordle</h1>
       <h2>{message}</h2>

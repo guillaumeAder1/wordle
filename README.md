@@ -18,4 +18,5 @@ fi
 PATH_add node_modules/.bin
 ```
 allow direnv `direnv allow .`
+close and reopen terminal
 
