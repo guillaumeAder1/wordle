@@ -1,9 +1,12 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
+import { typeWord } from './utils/utils'
 
 beforeEach(() => { 
   render(<App/>)
 })
+
+
 
 test('app render', () => {
   const linkElement = screen.getByText(/wordle/i);
@@ -23,13 +26,9 @@ test('user input should be displayed and removed with keyboard event', async () 
   fireEvent.keyDown(window, { key: 'Backspace', keyCode: 8 })
   expect(screen.queryByRole('cell', { name: '1' })).toBeNull()
 })
-test('should validate the row when there is 5 char and shoudl add corresponding class color', async () => { 
+test('should validate the row when there is 5 char and should add corresponding class color', async () => { 
   // add char to grid
-  fireEvent.keyDown(window, { key: 't' })
-  fireEvent.keyDown(window, { key: 'o' })
-  fireEvent.keyDown(window, { key: 'a' })
-  fireEvent.keyDown(window, { key: 's' })
-  fireEvent.keyDown(window, { key: 'k' })
+  typeWord('toask')
   screen.getByRole('cell', { name: 't' })
   screen.getByRole('cell', { name: 'o' })
   screen.getByRole('cell', { name: 'a' })
