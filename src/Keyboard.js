@@ -8,14 +8,14 @@ function Keyboard({ keys, lastWord, word }) {
     }
     return (
         <div className="keyboard-container centered">
-            <div>
-                {qwerty.map(char => <span key={char} className={getClass(char)}>{char}</span>)}
+            <div role="row">
+                {qwerty.map(char => <span key={char} role="cell" className={getClass(char)}>{char}</span>)}
             </div>
-            <div>
-                {asdf.map(char => <span key={char} className={getClass(char)}>{char}</span>)}
+            <div role="row">
+                {asdf.map(char => <span key={char} role="cell" className={getClass(char)}>{char}</span>)}
             </div>
-            <div>
-                {zxcv.map(char => <span key={char} className={getClass(char)}>{char}</span>)}
+            <div role="row">
+                {zxcv.map(char => <span key={char} role="cell" className={getClass(char)}>{char}</span>)}
             </div>
         </div>
     )
