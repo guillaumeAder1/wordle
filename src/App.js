@@ -3,29 +3,12 @@ import Grid from './Grid'
 import Keyboard from './Keyboard'
 import { useEffect, useState } from 'react';
 import { validateWordRow, buildKeyMap } from './utils/utils'
-import { fetchNewWord } from './utils/api'
-
-function useLoadNewWord() { 
-  const [newWord, setNewWord] = useState(null)  
-  useEffect(() => {
-    console.log('fetch new word')
-    async function fetch() {
-      const data = await fetchNewWord()
-      console.log(data)
-      // setWordToFind(data.newWord)
-      setNewWord(data.newWord)
-    }
-    fetch()
-  }, [])
-  return newWord;
-}
-
+import { useKeyboardEvent, useLoadNewWord } from './hooks/'
 
 function App() {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   function handleKeyevent(e) {
     const { key, keyCode } = e;
-    console.log(key, keyCode)
     // stop when all 6 chances are completed... end of game
     if (word.length === 7) {
       return
@@ -63,7 +46,10 @@ function App() {
     setWord([...word])
     setMessage(word[lastIndex])
   }
+  // custom hooks
+  useKeyboardEvent(handleKeyevent)
   const wordToFind = useLoadNewWord()
+  // setup
   const [word, setWord] = useState([''])
   const [wordStatus, setWordStatus] = useState([])
   const [message, setMessage] = useState('')
@@ -71,18 +57,11 @@ function App() {
   const [keyMap, setKeyMap] = useState({})
   const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: wordToFind })
   const rows = Array(6).fill(null)
-
  
   useEffect(() => {
     setLastIndex(word.length - 1);
     setKeyMap(buildKeyMap(word))
   }, [word])
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyevent)
-    return () => {
-      window.removeEventListener('keydown', handleKeyevent)
-    }
-  }, [handleKeyevent])
 
   return (
     <div

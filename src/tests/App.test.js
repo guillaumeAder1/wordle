@@ -38,7 +38,7 @@ describe('User input', () => {
     await fireEvent.keyDown(window, { keyCode: 13 })
     expect(document.querySelectorAll('.box.green').length).toBe(4)
   })
-  test('should add next row when user keeps typing', () => { 
+  test('should add next row when user keeps typing and fetchNewWord should be called only once per game', () => { 
     typeWord('qwert')
     fireEvent.keyDown(window, { keyCode: 13 })
     typeWord('yuiop')
@@ -54,5 +54,7 @@ describe('User input', () => {
     expect(isWordInGrid('asdfg').length).toBe(5)
     expect(isWordInGrid('hjklz').length).toBe(5)
     expect(isWordInGrid('xcvbn').length).toBe(5)
+    // called only once
+    expect(fetchNewWord).toHaveBeenCalledTimes(1)
   })
 })
