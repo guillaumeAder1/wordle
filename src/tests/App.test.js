@@ -1,9 +1,13 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
 import { typeWord } from './utils/utils'
+import { fetchNewWord } from '../utils/api'
+
+jest.mock('../utils/api')
 
 beforeEach(() => { 
-  render(<App/>)
+  fetchNewWord.mockResolvedValue({ newWord: 'toast' })
+  render(<App />)
 })
 
 
@@ -34,9 +38,10 @@ test('should validate the row when there is 5 char and should add corresponding 
   screen.getByRole('cell', { name: 'a' })
   screen.getByRole('cell', { name: 's' })
   screen.getByRole('cell', { name: 'k' })
+  // hit enter key to validate the row
   await fireEvent.keyDown(window, { keyCode: 13 })
-  screen.debug(
-    screen.getAllByRole('row')[0]
-  )
+  // screen.debug(
+  //   screen.getAllByRole('row')[0]
+  // )
   expect(document.querySelectorAll('.box.green').length).toBe(4)
 })
