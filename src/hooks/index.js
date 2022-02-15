@@ -6,11 +6,8 @@ import { fetchNewWord } from '../utils/api'
 export function useLoadNewWord() { 
   const [newWord, setNewWord] = useState(null)  
   useEffect(() => {
-    console.log('fetch new word')
     async function fetch() {
       const data = await fetchNewWord()
-      console.log(data)
-      // setWordToFind(data.newWord)
       setNewWord(data.newWord)
     }
     fetch()

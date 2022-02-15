@@ -6,7 +6,6 @@ import { validateWordRow, buildKeyMap } from './utils/utils'
 import { useKeyboardEvent, useLoadNewWord } from './hooks/'
 
 function App() {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   function handleKeyevent(e) {
     const { key, keyCode } = e;
     // stop when all 6 chances are completed... end of game
@@ -46,10 +45,12 @@ function App() {
     setWord([...word])
     setMessage(word[lastIndex])
   }
+  // const vars
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   // custom hooks
   useKeyboardEvent(handleKeyevent)
   const wordToFind = useLoadNewWord()
-  // setup
+  // setup state
   const [word, setWord] = useState([''])
   const [wordStatus, setWordStatus] = useState([])
   const [message, setMessage] = useState('')
