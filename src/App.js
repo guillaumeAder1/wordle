@@ -5,6 +5,20 @@ import { useEffect, useState } from 'react';
 import { validateWordRow, buildKeyMap } from './utils/utils'
 import { fetchNewWord } from './utils/api'
 
+function useLoadNewWord() { 
+  const [newWord, setNewWord] = useState(null)  
+  useEffect(() => {
+    console.log('fetch new word')
+    async function fetch() {
+      const data = await fetchNewWord()
+      console.log(data)
+      // setWordToFind(data.newWord)
+      setNewWord(data.newWord)
+    }
+    fetch()
+  }, [])
+  return newWord;
+}
 
 
 function App() {
@@ -49,7 +63,7 @@ function App() {
     setWord([...word])
     setMessage(word[lastIndex])
   }
-  const [wordToFind, setWordToFind] = useState('')
+  const wordToFind = useLoadNewWord()
   const [word, setWord] = useState([''])
   const [wordStatus, setWordStatus] = useState([])
   const [message, setMessage] = useState('')
@@ -69,14 +83,7 @@ function App() {
       window.removeEventListener('keydown', handleKeyevent)
     }
   }, [handleKeyevent])
-  useEffect(() => {
-    async function fetch() {
-      const data = await fetchNewWord()
-      console.log(data)
-      setWordToFind(data.newWord)
-    }
-    fetch()
-  }, [])
+
   return (
     <div
     className="App"
