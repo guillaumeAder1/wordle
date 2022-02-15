@@ -49,7 +49,7 @@ function App() {
     setWord([...word])
     setMessage(word[lastIndex])
   }
-  const wordToFind = 'toast'
+  const [wordToFind, setWordToFind] = useState('')
   const [word, setWord] = useState([''])
   const [wordStatus, setWordStatus] = useState([])
   const [message, setMessage] = useState('')
@@ -65,21 +65,24 @@ function App() {
   }, [word])
   useEffect(() => {
     window.addEventListener('keydown', handleKeyevent)
-    async function fetch() {
-      const data = await fetchNewWord()
-      console.log(data)
-    }
-    fetch()
     return () => {
       window.removeEventListener('keydown', handleKeyevent)
     }
+  }, [handleKeyevent])
+  useEffect(() => {
+    async function fetch() {
+      const data = await fetchNewWord()
+      console.log(data)
+      setWordToFind(data.newWord)
+    }
+    fetch()
   }, [])
   return (
     <div
     className="App"
     >
       <h1>Wordle</h1>
-      <h2>{message}</h2>
+      <h2>{message || 'start typing...'}</h2>
       {
         rows.map((row, index) => <Grid
           key={index}
