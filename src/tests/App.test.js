@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, getByRole, queryByRole } from '@testing-library/react';
 import App from '../App';
-import { typeWord, isWordInGrid } from './utils/utils'
+import { typeWord, isWordInGrid } from './utils/keyboardEvent'
 import { fetchNewWord } from '../utils/api'
 
 jest.mock('../utils/api')

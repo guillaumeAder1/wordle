@@ -7,7 +7,6 @@ export const typeWord = word => {
 }
 // return all occurences of char from {word}
 export const isWordInGrid = (word, container) => {
-  console.log(word)
   return word.split('')
     .map(char => queryByRole(container, 'cell', { name: char }))
     .filter(Boolean)

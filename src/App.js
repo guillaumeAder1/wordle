@@ -17,9 +17,9 @@ function App() {
       // add new word[] item 
       setWord([...word, ''])
       setkeyboardProps({
-        ...keyboardProps,
         keys: keyMap,
         lastWord: word[lastIndex],
+        word: wordToFind
       })
       // set word status for css classes
       setWordStatus([
@@ -56,7 +56,7 @@ function App() {
   const [message, setMessage] = useState('')
   const [lastIndex, setLastIndex] = useState(0)
   const [keyMap, setKeyMap] = useState({})
-  const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: wordToFind })
+  const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: '' })
   const rows = Array(6).fill(null)
  
   useEffect(() => {

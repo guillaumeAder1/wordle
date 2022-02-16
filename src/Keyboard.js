@@ -1,11 +1,10 @@
+import { getKeyboardClasses } from './utils/utils'
 
 function Keyboard({ keys, lastWord, word }) {
     const qwerty = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
     const asdf = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
     const zxcv = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
-    const getClass = char => {
-        return keys[char] ? 'grey' : ''
-    }
+    const getClass = getKeyboardClasses(lastWord, word)
     return (
         <div className="keyboard-container centered">
             <div role="row">

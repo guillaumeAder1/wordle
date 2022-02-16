@@ -19,3 +19,12 @@ export const buildKeyMap = words => {
     }
     return map;
 }
+
+
+export const getKeyboardClasses = (currentWord, originalWord) => char => {
+    let color = originalWord.includes(char) ? 'yellow' : 'grey'
+    color = color === 'yellow' && currentWord.indexOf(char) === originalWord.indexOf(char)
+        ? 'green'
+        : color;
+    return color
+}
