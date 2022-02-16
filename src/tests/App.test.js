@@ -1,13 +1,17 @@
-import { render, screen, fireEvent, getByRole } from '@testing-library/react';
+import { render, screen, fireEvent, getByRole, queryByRole } from '@testing-library/react';
 import App from '../App';
 import { typeWord, isWordInGrid } from './utils/utils'
 import { fetchNewWord } from '../utils/api'
 
 jest.mock('../utils/api')
 
+let gridContainer, keyboardContainer;
+
 beforeEach(() => { 
   fetchNewWord.mockResolvedValue({ newWord: 'toast' })
   render(<App />)
+  gridContainer = document.querySelector('.grid-container')
+  keyboardContainer = document.querySelector('.keyboard-container')
 })
 
 test('app render title, keyboard and grid elements... TODO', () => {
@@ -17,28 +21,32 @@ test('app render title, keyboard and grid elements... TODO', () => {
 
 describe('User input', () => {
   describe('on Grid', () => {
-    test('user input should be displayed and removed with keyboard event', async () => {
+
+    test('user input should be displayed and removed with keyboard event', () => {
       // add char to grid
       fireEvent.keyDown(window, { key: 'a' })
-      screen.getByRole('cell', { name: 'a' })
+      getByRole(gridContainer, 'cell', { name: 'a' })
       fireEvent.keyDown(window, { key: 'b' })
-      screen.getByRole('cell', { name: 'b' })
+      getByRole(gridContainer, 'cell', { name: 'b' })
       // delete last char
       fireEvent.keyDown(window, { key: 'Backspace', keyCode: 8 })
-      screen.getByRole('cell', { name: 'a' })
-      expect(screen.queryByRole('cell', { name: 'b' })).toBeNull()
+      // should be removed
+      expect(queryByRole(gridContainer, 'cell', { name: 'b' })).toBeNull()
+      // shoudl still be there
+      getByRole(gridContainer, 'cell', { name: 'a' })
       fireEvent.keyDown(window, { key: 'Backspace', keyCode: 8 })
-      expect(screen.queryByRole('cell', { name: '1' })).toBeNull()
+      // should be removed
+      expect(queryByRole(gridContainer, 'cell', { name: '1' })).toBeNull()
     })
-    test('should validate the row when there is 5 char and should add corresponding class color', async () => { 
+    test('should validate the row when there is 5 char and should add corresponding class color', () => { 
       // add char to grid
       typeWord('toask')
-      expect(isWordInGrid('toask').length).toBe(5)
+      expect(isWordInGrid('toask', gridContainer).length).toBe(5)
       // hit enter key to validate the row
-      await fireEvent.keyDown(window, { keyCode: 13 })
+      fireEvent.keyDown(window, { keyCode: 13 })
       expect(document.querySelectorAll('.box.green').length).toBe(4)
     })
-    test('should add next row when user keeps typing and fetchNewWord should be called only once per game', () => { 
+    test('should add next row when user keeps typing and fetchNewWord should be called only once per game', () => {
       typeWord('qwert')
       fireEvent.keyDown(window, { keyCode: 13 })
       typeWord('yuiop')
@@ -49,11 +57,11 @@ describe('User input', () => {
       fireEvent.keyDown(window, { keyCode: 13 })
       typeWord('xcvbn')
       fireEvent.keyDown(window, { keyCode: 13 })
-      expect(isWordInGrid('qwert').length).toBe(5)
-      expect(isWordInGrid('yuiop').length).toBe(5)
-      expect(isWordInGrid('asdfg').length).toBe(5)
-      expect(isWordInGrid('hjklz').length).toBe(5)
-      expect(isWordInGrid('xcvbn').length).toBe(5)
+      expect(isWordInGrid('qwert', gridContainer).length).toBe(5)
+      expect(isWordInGrid('yuiop', gridContainer).length).toBe(5)
+      expect(isWordInGrid('asdfg', gridContainer).length).toBe(5)
+      expect(isWordInGrid('hjklz', gridContainer).length).toBe(5)
+      expect(isWordInGrid('xcvbn', gridContainer).length).toBe(5)
       // called only once
       expect(fetchNewWord).toHaveBeenCalledTimes(1)
     })
@@ -61,7 +69,6 @@ describe('User input', () => {
 
   describe.only('on keyboard', () => {
     test('should color and validate the keyboard keys when hitting enter', () => {
-      const keyboardContainer = document.querySelector('.keyboard-container')
       //
       typeWord('terco')
       fireEvent.keyDown(window, { keyCode: 13 })

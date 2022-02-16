@@ -70,13 +70,15 @@ function App() {
     >
       <h1>Wordle</h1>
       <h2>{message || 'start typing...'}</h2>
-      {
-        rows.map((row, index) => <Grid
+      <div className='grid-container centered'>
+        {
+          rows.map((row, index) => <Grid
           key={index}
           currentWord={word[index] || ''}
           wordStatus={wordStatus[index]}
-        />)
-      }
+          />)
+        }
+      </div>
       <Keyboard {...keyboardProps} />
     </div>
   );
