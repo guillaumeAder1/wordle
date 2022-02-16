@@ -30,13 +30,14 @@ describe('User input', () => {
       getByRole(gridContainer, 'cell', { name: 'b' })
       // delete last char
       fireEvent.keyDown(window, { key: 'Backspace', keyCode: 8 })
-      // should be removed
+      // 'b' should be removed
       expect(queryByRole(gridContainer, 'cell', { name: 'b' })).toBeNull()
-      // shoudl still be there
+      // 'a' should still be there
       getByRole(gridContainer, 'cell', { name: 'a' })
+      // delete again
       fireEvent.keyDown(window, { key: 'Backspace', keyCode: 8 })
-      // should be removed
-      expect(queryByRole(gridContainer, 'cell', { name: '1' })).toBeNull()
+      // 'a' should be removed
+      expect(queryByRole(gridContainer, 'cell', { name: 'a' })).toBeNull()
     })
     test('should validate the row when there is 5 char and should add corresponding class color', () => { 
       // add char to grid
@@ -67,7 +68,7 @@ describe('User input', () => {
     })
   })
 
-  describe.only('on keyboard', () => {
+  describe('on keyboard', () => {
     test('should color and validate the keyboard keys when hitting enter', () => {
       //
       typeWord('terco')
