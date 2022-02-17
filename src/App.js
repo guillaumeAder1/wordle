@@ -1,11 +1,16 @@
+import React from 'react';
 import './App.scss';
 import Grid from './Grid'
 import Keyboard from './Keyboard'
 import { useEffect, useState } from 'react';
 import { validateWordRow, buildKeyMap } from './utils/utils'
-import { useKeyboardEvent, useLoadNewWord } from './hooks/'
+import { useKeyboardEvent, useLoadNewWord, useCollectWords } from './hooks/'
+
+const ctx = React.createContext();
+
 
 function App() {
+
   function handleKeyevent(e) {
     const { key, keyCode } = e;
     // stop when all 6 chances are completed... end of game
@@ -15,18 +20,7 @@ function App() {
     // if hit enter to validate word
     if (keyCode === 13 && word[lastIndex].length === 5) {
       // add new word[] item 
-      setWord([...word, ''])
-      setkeyboardProps({
-        keys: keyMap,
-        lastWord: word[lastIndex],
-        word: wordToFind
-      })
-      // set word status for css classes
-      setWordStatus([
-        ...wordStatus,
-        validateWordRow(word[lastIndex], wordToFind)
-      ]);
-
+      
       // end of game message
       if (word.length === 6) setMessage('Game over...')
     }
@@ -48,8 +42,9 @@ function App() {
   // const vars
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   // custom hooks
-  useKeyboardEvent(handleKeyevent)
+  // useKeyboardEvent(handleKeyevent)
   const wordToFind = useLoadNewWord()
+  // context
   // setup state
   const [word, setWord] = useState([''])
   const [wordStatus, setWordStatus] = useState([])
@@ -57,30 +52,49 @@ function App() {
   const [lastIndex, setLastIndex] = useState(0)
   const [keyMap, setKeyMap] = useState({})
   const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: '' })
-  const rows = Array(6).fill(null)
+
+  const [currentWords, currentKeys] = useCollectWords(wordToFind);
  
   useEffect(() => {
     setLastIndex(word.length - 1);
     setKeyMap(buildKeyMap(word))
   }, [word])
 
+  const getLastWord = () => currentWords[currentWords.length - 1]?.value;
+
+
   return (
-    <div
-    className="App"
-    >
-      <h1>Wordle</h1>
-      <h2>{message || 'start typing...'}</h2>
-      <div className='grid-container centered'>
-        {
-          rows.map((row, index) => <Grid
-          key={index}
-          currentWord={word[index] || ''}
-          wordStatus={wordStatus[index]}
-          />)
-        }
+    <ctx.Provider value={ { wordToFind } }>
+      <div
+        className="App"
+      >
+        
+        <h1>currentWords</h1>
+        <code>
+          {JSON.stringify(currentWords, null, 2)}
+        </code>
+        
+        <div>lastWord: {getLastWord()} </div>
+        
+        <div>currentKeys: {currentKeys}</div>
+        //
+        <p>
+          {/* current word: { currentWords } */}
+        </p>
+        {/* <h2>{message || 'start typing...'}</h2> */}
+        <Grid currentWords={currentWords}/>
+        {/* <div className='grid-container centered'>
+          {
+            rows.map((row, index) => <Grid
+              key={index}
+              currentWord={word[index] || ''}
+              wordStatus={wordStatus[index]}
+            />)
+          }
+        </div> */}
+        <Keyboard {...keyboardProps} />
       </div>
-      <Keyboard {...keyboardProps} />
-    </div>
+    </ctx.Provider>
   );
 }
 
