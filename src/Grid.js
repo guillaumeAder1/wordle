@@ -1,27 +1,6 @@
 import Box from './Box'
 import React from 'react'
 
-
-// function Grid({ currentWord, wordStatus }) {
-//     const boxes = Array(5).fill(null)
-//     return (
-//         <div className='box-row' role='row'>
-//             {boxes.map((box, i) => (
-//                 <Box
-//                     key={i}
-//                     value={currentWord[i] || ''}
-//                     color={wordStatus && wordStatus.length ? wordStatus[i].color : ''}
-//                 />
-//             ))}
-//         </div>
-//     )
-// }
-
-// rows.map((row, index) => <Grid
-// key={index}
-// currentWord={word[index] || ''}
-// wordStatus={wordStatus[index]}
-// />)
 function Grid({ currentWords }) {
     const rows = Array(6).fill(null)
     const cells = Array(5).fill(null)

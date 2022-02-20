@@ -14,14 +14,7 @@ export function useLoadNewWord() {
   }, [])
   return newWord;
 }
-export function useKeyboardEvent(fn) {
-  useEffect(() => {
-    window.addEventListener('keydown', fn)
-    return () => {
-      window.removeEventListener('keydown', fn)
-    }
-  }, [fn])
-}
+
 const validateChar = (wordToFind, char, index) => {
   const isPlaced = wordToFind[index] === char;
   if (isPlaced) return 'green'
@@ -43,8 +36,8 @@ export function useCollectWords(wordToFind) {
 
   const fn = e => {
     const { key, keyCode } = e
+    //  game over no more chances...
     if (currentWords.length === 6) return;
-    console.log(currentWords.current)
     // collect user inputs
     if (key.length === 1 && alphabet.includes(key) && currentKeys.length < 5) {
       const newKeys = [...currentKeys, key]
@@ -73,7 +66,7 @@ export function useCollectWords(wordToFind) {
       ])
       setCurrentKeys([])
     }
-    // delete last chararcter of current word
+    // delete last character of current word
     if (keyCode === 8) {
       const newKeys = currentKeys.slice(0, currentKeys.length - 1)
       setCurrentKeys([
