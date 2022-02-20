@@ -1,4 +1,5 @@
 import Box from './Box'
+import React from 'react'
 
 
 // function Grid({ currentWord, wordStatus }) {
@@ -24,6 +25,7 @@ import Box from './Box'
 function Grid({ currentWords }) {
     const rows = Array(6).fill(null)
     const cells = Array(5).fill(null)
+    console.log('rendeing Grid', currentWords)
     return (
         <div className='grid-container centered'>
             <b>
@@ -47,4 +49,4 @@ function Grid({ currentWords }) {
       </div>
     )
 }
-export default Grid;
+export default React.memo(Grid);

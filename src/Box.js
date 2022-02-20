@@ -1,5 +1,7 @@
+import React from 'react';
 
 function Box({ value, color }) {
+    console.log('rendering Box - ' + value)
     return (
         <div
             role="cell"
@@ -11,4 +13,4 @@ function Box({ value, color }) {
     )
 }
 
-export default Box;
+export default React.memo(Box);
