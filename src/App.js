@@ -24,7 +24,7 @@ function App() {
         className="App"
       >
         
-        <h1>currentWords</h1>
+        <h1>wordle</h1>
         <code>
           {JSON.stringify(currentWords, null, 2)}
         </code>
