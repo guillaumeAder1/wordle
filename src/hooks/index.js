@@ -39,6 +39,7 @@ export function useCollectWords(wordToFind) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   const [currentKeys, setCurrentKeys] = useState([])
   const [currentWords, setCurrentWords] = useState([])
+  const getLastWordIndex = () => currentWords.length ? currentWords.length - 1 : 0;
 
   const fn = e => {
     const { key, keyCode } = e
@@ -46,21 +47,29 @@ export function useCollectWords(wordToFind) {
     console.log(currentWords.current)
     // collect user inputs
     if (key.length === 1 && alphabet.includes(key) && currentKeys.length < 5) {
-      setCurrentKeys([
-        ...currentKeys,
-        key
+      const newKeys = [...currentKeys, key]
+      setCurrentKeys(newKeys)
+
+      currentWords[getLastWordIndex()] = {
+        value: newKeys,
+        data: newKeys.map(char => ({ value: char }))
+      }
+      setCurrentWords([
+        ...currentWords,
       ])
     }
     // hit enter to validate word
     if (currentKeys.length === 5 && keyCode === 13) {
       const currentWord = currentKeys;
       const validate = validateWord(wordToFind, currentWord)
+      
+      currentWords[getLastWordIndex()] = {
+        value: currentKeys.join(''),
+        data: validate
+      }
       setCurrentWords([
         ...currentWords,
-        {
-          value: currentKeys.join(''),
-          data: validate,
-        }
+        { value: '', data: [] }
       ])
       setCurrentKeys([])
     }
@@ -73,7 +82,7 @@ export function useCollectWords(wordToFind) {
     }
   }
   useEffect(() => {
-    console.warn('mounted')
+    // console.warn('mounted')
     window.addEventListener('keydown', fn)
     return () => {
       window.removeEventListener('keydown', fn)
