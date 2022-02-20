@@ -68,9 +68,16 @@ export function useCollectWords(wordToFind) {
     }
     // delete last character of current word
     if (keyCode === 8) {
-      const newKeys = currentKeys.slice(0, currentKeys.length - 1)
+      currentKeys.pop();
       setCurrentKeys([
-        ...newKeys
+        ...currentKeys
+      ])
+      currentWords[getLastWordIndex()] = {
+        value: currentKeys.join(''),
+        data: currentKeys.map(char => ({ value: char }))
+      }
+      setCurrentWords([
+        ...currentWords
       ])
     }
   }
