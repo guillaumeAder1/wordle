@@ -1,10 +1,12 @@
+import React from 'react'
 import { getKeyboardClasses } from './utils/utils'
 
 function Keyboard({ keys, lastWord, word }) {
     const qwerty = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
     const asdf = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
-    const zxcv = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+    const zxcv = ['Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'Back']
     const getClass = getKeyboardClasses(lastWord, word)
+    console.log('render keyboard')
     return (
         <div className="keyboard-container centered">
             <div role="row">
@@ -20,4 +22,4 @@ function Keyboard({ keys, lastWord, word }) {
     )
 }
 
-export default Keyboard
+export default React.memo(Keyboard)

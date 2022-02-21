@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import './App.scss';
 import Grid from './Grid'
 import Keyboard from './Keyboard'
@@ -10,13 +10,26 @@ const ctx = React.createContext();
 
 function App() {
 
-  // custom hooks
+  // custom hooks & state
   const wordToFind = useLoadNewWord()
-  // setup state
-  const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: '' })
-  const [currentWords, currentKeys] = useCollectWords(wordToFind);
+  const [currentWords, currentKeys] = useCollectWords(wordToFind, () => {
+    console.log('curom hook callback', currentWords[0].data)
+    const allData = currentWords.reduce((acc, val) => acc.concat(val.data), [])
+    const map = allData.reduce((acc, d) => { 
+      if (acc[d.value]) {
+        acc[d.value] = d.color.rank < acc[d.value].rank ? d.color : acc[d.value];
+      } else { 
+        acc[d.value] = d.color
+      }
+      acc[d.value].value = acc[d.value].value === 'grey' ? '' : acc[d.value].value
+      return acc;
+    }, {})
+    console.warn(map)
 
+  });
+  const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: '' })
   const getLastWord = () => currentWords[currentWords.length - 1]?.value;
+
 
   return (
     <ctx.Provider value={ { wordToFind } }>
@@ -38,4 +51,4 @@ function App() {
   );
 }
 
-export default React.memo(App);
+export default App;

@@ -26,7 +26,7 @@ const validateWord = (wordToFind, current) => current.map((char, i) => ({
 }));
 
 
-export function useCollectWords(wordToFind) {
+export function useCollectWords(wordToFind, cb) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   const [currentKeys, setCurrentKeys] = useState([])
   const [currentWords, setCurrentWords] = useState([])
@@ -35,7 +35,7 @@ export function useCollectWords(wordToFind) {
   const fn = e => {
     const { key, keyCode } = e
     //  game over, no more chances...
-    if (currentWords.length === 6) return;
+    if (currentWords.length === 7) return;
     // collect user inputs
     if (key.length === 1 && alphabet.includes(key) && currentKeys.length < 5) {
       const newKeys = [...currentKeys, key]
@@ -63,6 +63,8 @@ export function useCollectWords(wordToFind) {
         { value: '', data: [] }
       ])
       setCurrentKeys([])
+      // call callback validation...
+      cb && cb();
     }
     // delete last character of current word
     if (keyCode === 8) {

@@ -21,7 +21,6 @@ test('app render title, keyboard and grid elements... TODO', () => {
 
 describe('User input', () => {
   describe('on Grid', () => {
-
     test('user input should be displayed and removed with keyboard event', () => {
       // add char to grid
       fireEvent.keyDown(window, { key: 'a' })
