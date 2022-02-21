@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './App.scss';
 import Grid from './Grid'
 import Keyboard from './Keyboard'
@@ -38,4 +38,4 @@ function App() {
   );
 }
 
-export default App;
+export default React.memo(App);

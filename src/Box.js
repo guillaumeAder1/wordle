@@ -6,7 +6,7 @@ function Box({ value, color }) {
         <div
             role="cell"
             onClick={() => console.log(value)}
-            className={`${color} box`}
+            className={`${color} box gap`}
         >
             {value}
         </div>

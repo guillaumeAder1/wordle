@@ -20,13 +20,11 @@ const validateChar = (wordToFind, char, index) => {
   if (isPlaced) return 'green'
   return wordToFind.includes(char) ? 'yellow' : 'grey'
 }
-const validateWord = (wordToFind, current) => {
-  const m = current.map((char, i) => ({
-    value: char,
-    color: validateChar(wordToFind, char, i)
-  }));
-  return m
-}
+const validateWord = (wordToFind, current) => current.map((char, i) => ({
+  value: char,
+  color: validateChar(wordToFind, char, i)
+}));
+
 
 export function useCollectWords(wordToFind) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -36,7 +34,7 @@ export function useCollectWords(wordToFind) {
 
   const fn = e => {
     const { key, keyCode } = e
-    //  game over no more chances...
+    //  game over, no more chances...
     if (currentWords.length === 6) return;
     // collect user inputs
     if (key.length === 1 && alphabet.includes(key) && currentKeys.length < 5) {
