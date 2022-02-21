@@ -17,8 +17,8 @@ export function useLoadNewWord() {
 
 const validateChar = (wordToFind, char, index) => {
   const isPlaced = wordToFind[index] === char;
-  if (isPlaced) return 'green'
-  return wordToFind.includes(char) ? 'yellow' : 'grey'
+  if (isPlaced) return { rank: 1, value: 'green' }
+  return wordToFind.includes(char) ? { rank: 2, value: 'yellow' } : { rank: 3, value: 'grey' }
 }
 const validateWord = (wordToFind, current) => current.map((char, i) => ({
   value: char,

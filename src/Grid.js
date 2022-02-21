@@ -18,7 +18,7 @@ function Grid({ currentWords }) {
                                 <Box
                                     key={`${rowIdx}-${cellIdx}`}
                                     value={currentWords[rowIdx]?.data[cellIdx]?.value || ''}
-                                    color={currentWords[rowIdx]?.data[cellIdx]?.color || ''}
+                                    color={currentWords[rowIdx]?.data[cellIdx]?.color?.value || ''}
                                 />
                             )
                         }
