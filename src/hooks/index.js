@@ -88,5 +88,5 @@ export function useCollectWords(wordToFind, cb) {
       window.removeEventListener('keydown', fn)
     }
   }, [fn])
-  return [currentWords, currentKeys];
+  return currentWords;
 }

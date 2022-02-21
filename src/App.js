@@ -7,45 +7,36 @@ import { useLoadNewWord, useCollectWords } from './hooks/'
 
 const ctx = React.createContext();
 
+const buildKeysMap = currentWords => {
+  const allData = currentWords.reduce((acc, val) => acc.concat(val.data), [])
+  const keysMap = allData.reduce((acc, d) => { 
+    if (acc[d.value]) {
+      acc[d.value] = d.color.rank < acc[d.value].rank ? d.color : acc[d.value];
+    } else { 
+      acc[d.value] = d.color
+    }
+    return acc;
+  }, {})
+  return keysMap;
+}
 
 function App() {
-
   // custom hooks & state
+  const [keyboardKeysMap, setKeyboardKeysMap] = useState({})
   const wordToFind = useLoadNewWord()
-  const [currentWords, currentKeys] = useCollectWords(wordToFind, () => {
-    console.log('curom hook callback', currentWords[0].data)
-    const allData = currentWords.reduce((acc, val) => acc.concat(val.data), [])
-    const map = allData.reduce((acc, d) => { 
-      if (acc[d.value]) {
-        acc[d.value] = d.color.rank < acc[d.value].rank ? d.color : acc[d.value];
-      } else { 
-        acc[d.value] = d.color
-      }
-      acc[d.value].value = acc[d.value].value === 'grey' ? '' : acc[d.value].value
-      return acc;
-    }, {})
-    console.warn(map)
-
-  });
-  const [keyboardProps, setkeyboardProps] = useState({ keys: {}, lastWord: '', word: '' })
-  const getLastWord = () => currentWords[currentWords.length - 1]?.value;
-
+  const currentWords = useCollectWords(
+    wordToFind,
+    () => setKeyboardKeysMap(buildKeysMap(currentWords))
+  );
 
   return (
     <ctx.Provider value={ { wordToFind } }>
       <div
         className="App"
       >
-        
-        <h1>wordle</h1>
-        <code>
-          {JSON.stringify(currentWords, null, 2)}
-        </code>
-        <div>lastWord: {getLastWord()} </div>
-        <div>currentKeys: {currentKeys}</div>
-
+        <h1>Wordle</h1>
         <Grid currentWords={currentWords}/>
-        <Keyboard {...keyboardProps} />
+        <Keyboard keysMap={keyboardKeysMap} />
       </div>
     </ctx.Provider>
   );

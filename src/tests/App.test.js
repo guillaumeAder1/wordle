@@ -20,6 +20,20 @@ test('app render title, keyboard and grid elements... TODO', () => {
 });
 
 describe('User input', () => {
+  describe('setup', () => {
+    test('should call fetcNewWord only once', () => { 
+      // initial call
+      expect(fetchNewWord).toHaveBeenCalledTimes(1)
+      typeWord('qwert')
+      fireEvent.keyDown(window, { keyCode: 13 })
+      typeWord('yuiop')
+      fireEvent.keyDown(window, { keyCode: 13 })
+      typeWord('asdfg')
+      fireEvent.keyDown(window, { keyCode: 13 })
+      // still called only once
+      expect(fetchNewWord).toHaveBeenCalledTimes(1)
+    })
+  })
   describe('on Grid', () => {
     test('user input should be displayed and removed with keyboard event', () => {
       // add char to grid
@@ -46,7 +60,7 @@ describe('User input', () => {
       fireEvent.keyDown(window, { keyCode: 13 })
       expect(document.querySelectorAll('.box.green').length).toBe(4)
     })
-    test('should add next row when user keeps typing and fetchNewWord should be called only once per game', () => {
+    test('should add next row when user keeps typing', () => {
       typeWord('qwert')
       fireEvent.keyDown(window, { keyCode: 13 })
       typeWord('yuiop')
@@ -62,8 +76,6 @@ describe('User input', () => {
       expect(isWordInGrid('asdfg', gridContainer).length).toBe(5)
       expect(isWordInGrid('hjklz', gridContainer).length).toBe(5)
       expect(isWordInGrid('xcvbn', gridContainer).length).toBe(5)
-      // called only once
-      expect(fetchNewWord).toHaveBeenCalledTimes(1)
     })
   })
 

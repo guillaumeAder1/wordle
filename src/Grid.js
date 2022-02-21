@@ -4,12 +4,9 @@ import React from 'react'
 function Grid({ currentWords }) {
     const rows = Array(6).fill(null)
     const cells = Array(5).fill(null)
-    console.log('rendeing Grid', currentWords)
+    // console.log('rendeing Grid', currentWords)
     return (
         <div className='grid-container centered'>
-            <b>
-                {/* {currentWords} */}
-            </b>
             {
                 rows.map((row, rowIdx) => 
                     <div key={rowIdx} className='box-row' role='row'>      

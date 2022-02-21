@@ -1,12 +1,10 @@
 import React from 'react'
-import { getKeyboardClasses } from './utils/utils'
 
-function Keyboard({ keys, lastWord, word }) {
+function Keyboard({ keysMap }) {
     const qwerty = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
     const asdf = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
     const zxcv = ['Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'Back']
-    const getClass = getKeyboardClasses(lastWord, word)
-    console.log('render keyboard')
+    const getClass = char => keysMap?.[char]?.value || '' 
     return (
         <div className="keyboard-container centered">
             <div role="row">
