@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, getByRole, queryByRole } from '@testing-library/react';
+import { render, screen, fireEvent, getByRole, queryByRole, act } from '@testing-library/react';
 import App from '../App';
 import { typeWord, isWordInGrid } from './utils/keyboardEvent'
 import { fetchNewWord } from '../utils/api'
@@ -9,7 +9,9 @@ let gridContainer, keyboardContainer;
 
 beforeEach(() => { 
   fetchNewWord.mockResolvedValue({ newWord: 'toast' })
-  render(<App />)
+  act(() => {
+    render(<App />)
+  });
   gridContainer = document.querySelector('.grid-container')
   keyboardContainer = document.querySelector('.keyboard-container')
 })
@@ -38,15 +40,15 @@ describe('User input', () => {
     test('user input should be displayed and removed with keyboard event', () => {
       // add char to grid
       fireEvent.keyDown(window, { key: 'a' })
-      getByRole(gridContainer, 'cell', { name: 'a' })
+      expect(getByRole(gridContainer, 'cell', { name: 'a' })).toBeInTheDocument()
       fireEvent.keyDown(window, { key: 'b' })
-      getByRole(gridContainer, 'cell', { name: 'b' })
+      expect(getByRole(gridContainer, 'cell', { name: 'b' })).toBeInTheDocument()
       // delete last char
       fireEvent.keyDown(window, { key: 'Backspace', keyCode: 8 })
       // 'b' should be removed
       expect(queryByRole(gridContainer, 'cell', { name: 'b' })).toBeNull()
       // 'a' should still be there
-      getByRole(gridContainer, 'cell', { name: 'a' })
+      expect(getByRole(gridContainer, 'cell', { name: 'a' })).toBeInTheDocument()
       // delete again
       fireEvent.keyDown(window, { key: 'Backspace', keyCode: 8 })
       // 'a' should be removed
