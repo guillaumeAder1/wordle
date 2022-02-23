@@ -26,7 +26,7 @@ const validateWord = (wordToFind, current) => current.map((char, i) => ({
 }));
 
 
-export function useCollectWords(wordToFind, cb) {
+export function useCollectUserInput(wordToFind, cb) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'
   const [currentKeys, setCurrentKeys] = useState([])
   const [currentWords, setCurrentWords] = useState([])
@@ -82,10 +82,18 @@ export function useCollectWords(wordToFind, cb) {
     }
   }
   useEffect(() => {
-    // console.warn('mounted')
+    const keyboardContainer = document.querySelectorAll('.keyboard-container [role="cell"]')
+    const proxyKeyboardEvent = e => {
+      const value = e.target.textContent
+      if (value.toLowerCase() === 'back') fn({ keyCode: 8, key: 'back' })
+      else if (value.toLowerCase() === 'enter') fn({ keyCode: 13, key: 'enter' })
+      else fn({ key: e.target.textContent })
+    }
     window.addEventListener('keydown', fn)
+    keyboardContainer.forEach(el => el.addEventListener('click', proxyKeyboardEvent))
     return () => {
       window.removeEventListener('keydown', fn)
+      keyboardContainer.forEach(el => el.removeEventListener('click', proxyKeyboardEvent))
     }
   }, [fn])
   return currentWords;

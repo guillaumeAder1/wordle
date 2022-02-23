@@ -3,7 +3,7 @@ import './App.scss';
 import Grid from './Grid'
 import Keyboard from './Keyboard'
 import { useState } from 'react';
-import { useLoadNewWord, useCollectWords } from './hooks/'
+import { useLoadNewWord, useCollectUserInput } from './hooks/'
 
 const ctx = React.createContext();
 
@@ -24,7 +24,7 @@ function App() {
   // custom hooks & state
   const [keyboardKeysMap, setKeyboardKeysMap] = useState({})
   const wordToFind = useLoadNewWord()
-  const currentWords = useCollectWords(
+  const currentWords = useCollectUserInput(
     wordToFind,
     () => setKeyboardKeysMap(buildKeysMap(currentWords))
   );
